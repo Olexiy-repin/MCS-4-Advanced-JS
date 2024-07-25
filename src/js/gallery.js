@@ -1,7 +1,7 @@
 // Описаний в документації
 import SimpleLightbox from 'simplelightbox';
 // Додатковий імпорт стилів
-import 'simplelightbox/dist/simple-lightbox.min.css';
+// import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const pictures = [
   {

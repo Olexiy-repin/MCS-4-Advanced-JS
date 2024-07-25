@@ -1,4 +1,5 @@
 @import url('./reset.css');
+@import url('simplelightbox/dist/simple-lightbox.min.css');
 
 html {
   scroll-behavior: smooth;
@@ -28,4 +29,8 @@ body {
 .gallery__item:hover,
 .gallery__item:focus {
   transform: scale(1.1);
+}
+
+.sl-overlay {
+  background-color: teal;
 }
