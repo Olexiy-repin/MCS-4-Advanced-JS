@@ -45,6 +45,19 @@
 
 /* 
 ? Напишіть функцію startCounter(), яка буде виводити лічильник на сторінку.
-? Лічильник має рахувати від 1 до counter.
 */
+
 // const counterEl = document.querySelector('.js-counter');
+// let i = 0;
+
+// const startCounter = () => {
+//   i += 10;
+
+//   counterEl.innerHTML = i;
+
+//   if (i < 1000) {
+//     setTimeout(startCounter, 100);
+//   }
+// };
+
+// startCounter();
