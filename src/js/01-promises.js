@@ -61,3 +61,59 @@
 // };
 
 // startCounter();
+
+//? Який порядок виконання цього коду?
+// setTimeout(function () {
+//   console.log('Таймаут');
+// }, 0);
+
+// let promise = new Promise(function (resolve, reject) {
+//   console.log('Створення проміса');
+
+//   resolve();
+// });
+
+// promise.then(function() {
+//   console.log('Обробка проміса');
+// });
+
+// console.log('Кінець скрипта');
+
+//? Який порядок виконання цього коду?
+// console.log(1);
+
+// setTimeout(() => {
+//   console.log(2);
+// }, 0);
+
+// const promise1 = new Promise((resolve, reject) => {
+//   resolve();
+// });
+
+// promise1.then(() => {
+//   console.log(3);
+// });
+
+// const promise2 = new Promise((resolve, reject) => {
+//   resolve();
+// });
+
+// promise2.then(() => {
+//   setTimeout(() => {
+//     console.log(4);
+//   }, 0);
+// });
+
+// const promise3 = new Promise((resolve, reject) => {
+//   resolve();
+// });
+
+// promise3.then(() => {
+//   console.log(5);
+// });
+
+// setTimeout(() => {
+//   console.log(6);
+// }, 0);
+
+// console.log(7);
