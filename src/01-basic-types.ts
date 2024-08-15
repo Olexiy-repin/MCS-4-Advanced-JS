@@ -11,14 +11,14 @@
  */
 
 //* Скалярні типи для змінних:
-// const isOpen: boolean = true;
-// const pricePerItem = 3000;
-// const username = 'Oleksii';
-// const empty = null;
-// const notValue = undefined;
+// let isOpen: boolean = true;
+// let pricePerItem: number = 3000;
+// let username: string = 'Oleksii';
+// let empty: null = null;
+// let notValue: undefined = undefined;
 
-//* Скалярні типи для параметрів функції:
-// function foo(firstName, lastName, age) {
+//* Типізація параметрів функції:
+// function foo(firstName: string, lastName: string, age: number) {
 //   console.log(`${firstName} ${lastName} is ${age} years old.`);
 // }
 
@@ -26,24 +26,28 @@
 
 //* Складні типи:
 //* object
-// const bookJS = {
+// type Book = { title: string; description: string; rating: number };
+
+// let bookJS: Book = {
 //   title: 'JS',
 //   description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, illo.',
 //   rating: 9,
 // };
 
-// const bookHTML = {
+// let bookHTML: Book = {
 //   title: 'HTML',
 //   description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, illo.',
 //   rating: 8.5,
 // };
 
 //* array
-// const temperature = [10, 15, 12.5, 13];
+// const temperature: number[] = [10, 15, 12.5, 13];
 
-// const property = ['rating', 10];
+// const property: (string | number)[] = ['rating', 10];
 
-// const books = [
+// type Book = { title: string; description: string; rating: number };
+
+// const books: Book[] = [
 //   {
 //     title: 'JS',
 //     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, illo.',
