@@ -51,6 +51,29 @@
   object-fit: cover;
 }
 
+.load-more {
+  display: block;
+  font-size: 18px;
+  padding: 10px 40px;
+  background-color: #2ecc71;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  transition: opacity 250ms linear;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+.load-more.is-hidden {
+  display: none;
+}
+
+.load-more:hover,
+.load-more:focus {
+  opacity: 0.7;
+}
+
 /* Loader */
 .loader-wrapper {
   display: flex;
