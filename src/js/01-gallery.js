@@ -1,11 +1,5 @@
 // https://unsplash.com/documentation
 
-/*
-<li class="gallery-card">
-  <img class="gallery-img" src="" alt="" />
-</li>
-*/
-
 import { createGalleryCardTemplate } from './templates/gallery-card-template.js';
 import { fetchPhotos } from './unsplash-api.js';
 import iziToast from 'izitoast';
@@ -13,50 +7,101 @@ import iziToast from 'izitoast';
 const searchFormEl = document.querySelector('.js-search-form');
 const galleryEl = document.querySelector('.js-gallery');
 const loaderEl = document.querySelector('.js-loader');
+const loadMoreBtnEl = document.querySelector('.js-load-more');
 
-const onSearchFormSubmit = event => {
-  event.preventDefault();
+let currentPage = 1;
+let searchedValue = '';
+let cardHeight = 0;
 
-  const searchedValue = event.target.elements.user_query.value.trim();
+const onSearchFormSubmit = async event => {
+  try {
+    event.preventDefault();
 
-  if (searchedValue === '') {
-    iziToast.error({
-      message: 'Поле для пошуку не має бути порожнім!',
-      position: 'topRight',
-    });
+    searchedValue = event.target.elements.user_query.value.trim();
 
-    searchFormEl.reset();
+    if (searchedValue === '') {
+      iziToast.error({
+        message: 'Поле для пошуку не має бути порожнім!',
+        position: 'topRight',
+      });
 
-    return;
+      searchFormEl.reset();
+      galleryEl.innerHTML = '';
+
+      return;
+    }
+
+    galleryEl.innerHTML = '';
+    loaderEl.classList.remove('is-hidden');
+    currentPage = 1;
+
+    const {
+      data: { results },
+    } = await fetchPhotos(searchedValue, currentPage);
+
+    loaderEl.classList.add('is-hidden');
+
+    if (results.length === 0) {
+      iziToast.error({
+        message: 'За вашим запитом, зображень не знайдено!',
+        position: 'topRight',
+      });
+
+      searchFormEl.reset();
+      galleryEl.innerHTML = '';
+
+      return;
+    }
+
+    const galleryCardsTemplate = results
+      .map(imgInfo => createGalleryCardTemplate(imgInfo))
+      .join('');
+
+    galleryEl.innerHTML = galleryCardsTemplate;
+
+    cardHeight = galleryEl.querySelector('li').getBoundingClientRect().height;
+
+    loadMoreBtnEl.classList.remove('is-hidden');
+  } catch (err) {
+    loaderEl.classList.add('is-hidden');
+
+    console.log(err);
   }
+};
 
-  loaderEl.classList.remove('is-hidden');
+const onLoadMoreBtnClick = async event => {
+  try {
+    currentPage++;
 
-  fetchPhotos(searchedValue)
-    .finally(() => {
-      loaderEl.classList.add('is-hidden');
-    })
-    .then(({ results }) => {
-      if (results.length === 0) {
-        iziToast.error({
-          message: 'За вашим запитом, зображень не знайдено!',
-          position: 'topRight',
-        });
+    loadMoreBtnEl.classList.add('is-hidden');
+    loaderEl.classList.remove('is-hidden');
 
-        searchFormEl.reset();
+    const { data } = await fetchPhotos(searchedValue, currentPage);
 
-        return;
-      }
+    loadMoreBtnEl.classList.remove('is-hidden');
+    loaderEl.classList.add('is-hidden');
 
-      const galleryCardsTemplate = results
-        .map(imgInfo => createGalleryCardTemplate(imgInfo))
-        .join('');
+    const galleryCardsTemplate = data.results
+      .map(imgInfo => createGalleryCardTemplate(imgInfo))
+      .join('');
 
-      galleryEl.innerHTML = galleryCardsTemplate;
-    })
-    .catch(err => {
-      console.log(err);
+    galleryEl.insertAdjacentHTML('beforeend', galleryCardsTemplate);
+
+    scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
     });
+
+    if (currentPage === data.total_pages) {
+      loadMoreBtnEl.classList.add('is-hidden');
+    }
+  } catch (err) {
+    loadMoreBtnEl.classList.remove('is-hidden');
+    loaderEl.classList.add('is-hidden');
+
+    console.log(err);
+  }
 };
 
 searchFormEl.addEventListener('submit', onSearchFormSubmit);
+loadMoreBtnEl.addEventListener('click', onLoadMoreBtnClick);
